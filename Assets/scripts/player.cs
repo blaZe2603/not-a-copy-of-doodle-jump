@@ -2,6 +2,8 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+
 //using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,36 +11,39 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
+    public Animator animator;
     GameManager gameManager;
     public Transform gridm; 
     BoxCollider2D col;
-    //Rigidbody2D _rb;
+    Rigidbody2D rb;
     Camera _camera;
     float inputh;
     float inputv;
     [SerializeField]float walk ;
-    [SerializeField] float jump;
-    Vector2 jump_sprint;
-    Vector2 move;
-    bool jumppossible;
     bool movepossiblity = true;
     public Queue<float> movesave = new Queue<float>();
-    public Queue<float> movesave1 = new Queue<float>();
-    
-    float currentmove;
+    public bool p2move = false;
+    public bool p2camera = false;
+    public Transform epw1;
+    public TextMeshProUGUI dist;
+    Vector2 a;
     void Start()
     {
         gridm.parent = null;
-        //_rb = gameObject.GetComponent<Rigidbody2D>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
         _camera = Camera.main;
         col = gameObject.GetComponent<BoxCollider2D>();
         movesave.Enqueue(0);
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+       
     }
 
     // Update is called once per frame
     void Update()
     {
+        dist.text = "x : " + ((int)(epw1.transform.position.x - transform.position.x)).ToString() + " y : " + ((int)(epw1.transform.position.y - transform.position.y + 0.5f)).ToString();
+        a.x = UnityEngine.Input.GetAxisRaw("Horizontal");
+        a.y = UnityEngine.Input.GetAxisRaw("Vertical");
         transform.position = Vector3.MoveTowards(transform.position, gridm.position, walk*Time.deltaTime);
         if (Vector3.Distance(transform.position, gridm.position) < 0.05f)
         {
@@ -58,12 +63,15 @@ public class player : MonoBehaviour
                 movesave.Enqueue(UnityEngine.Input.GetAxisRaw("Vertical")*2);
             }
         }
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             gameManager.gameover();
-         
         }
+        animator.SetFloat("horizontal", a.x);
+        animator.SetFloat("vertical", a.y);
+        animator.SetFloat("speed", a.sqrMagnitude);
     }
+    
 
     IEnumerator stop()
     {
@@ -73,17 +81,28 @@ public class player : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if( collision.gameObject.tag == "ground")
+        if (collision.gameObject.tag == "end")
         {
-            jumppossible = true;
+            gameManager.gameover();
+            p2move = true;
+        }
+        if (collision.gameObject.tag == "spike")
+        {
+            Destroy(gameObject);
+            Debug.Log("U lose");
+        }
+        if(collision.gameObject.tag == ("Block"))
+        {
+            // Stop movement to prevent overlap
+            rb.velocity = Vector2.zero;
         }
 
     }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "ground")
-        {
-            jumppossible = false;
-        }
-    }
+    //private void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "ground")
+    //    {
+    //        jumppossible = false;
+    //    }
+    //}
 }

@@ -8,10 +8,16 @@ public class GameManager : MonoBehaviour
     public GameObject gameoverUI;
     public GameObject gameoverUI1;
     public bool game = false;
+    player player;
+    private void Start()
+    {
+        player = GameObject.Find("Player").GetComponent<player>();
+    }
     public void gameover()
     {
         gameoverUI.SetActive(true);
         gameoverUI1.SetActive(false);
+        player.p2move = true;
     }
     public void restart()
     {
