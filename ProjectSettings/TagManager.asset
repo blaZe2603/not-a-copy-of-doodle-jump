@@ -9,6 +9,7 @@ TagManager:
   - endw2
   - spike
   - movable
+  - notmovable
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - obstacle
   - 
   - 
   - 
