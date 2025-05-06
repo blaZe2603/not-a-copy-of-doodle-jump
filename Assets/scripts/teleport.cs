@@ -21,7 +21,7 @@ public class teleport : MonoBehaviour
     {
         if (collision.gameObject.tag == ("Player"))
         {
-            player.gridm.position = tp2.position;
+            player.transform.position = tp2.position;
             player.transform.position = tp2.position;
                 
         }

@@ -6,9 +6,5 @@ using UnityEngine.SceneManagement;
 public class Levelmenu : MonoBehaviour
 {
     // Start is called before the first frame update
-    public void OpenLevel(int levelid)
-    {
-        SceneManager.LoadScene(levelid);
 
-    }
 }

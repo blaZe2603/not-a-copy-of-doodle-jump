@@ -19,8 +19,5 @@ public class GameManager : MonoBehaviour
         gameoverUI1.SetActive(false);
         player.p2move = true;
     }
-    public void restart()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+    
 }
