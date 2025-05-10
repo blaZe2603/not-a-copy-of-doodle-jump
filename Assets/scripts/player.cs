@@ -12,7 +12,9 @@ public class player : MonoBehaviour
     Rigidbody2D rb;
     Camera _camera;
 
-     public float walk ;
+    public GameObject targetObject;
+    public float walk ;
+    player2 p_2;
     
     public bool movepossiblity = true;
     public Queue<float> movesave = new Queue<float>();
@@ -27,7 +29,7 @@ public class player : MonoBehaviour
     private float lastMoveTime;
     void Start()
     {
-        
+        p_2 = targetObject.GetComponent<player2>();  
         rb = gameObject.GetComponent<Rigidbody2D>();
         _camera = Camera.main;
         col = gameObject.GetComponent<BoxCollider2D>();
@@ -59,7 +61,6 @@ public class player : MonoBehaviour
             }
         if (moveDir != Vector2.zero)
         {
-        Debug.Log(moveDir);
 
             Vector2 newPosition = Vector2.Lerp(rb.position, rb.position + moveDir * moveStep,walk * Time.fixedDeltaTime);
             rb.MovePosition(newPosition);
@@ -114,6 +115,7 @@ public class player : MonoBehaviour
         if (collision.gameObject.tag == "spike")
         {
             Destroy(gameObject);
+            p_2.lose = true;
             Debug.Log("U lose");
         }
 

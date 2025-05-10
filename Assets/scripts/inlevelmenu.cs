@@ -11,6 +11,7 @@ public class inlevelmenu : MonoBehaviour
     public GameObject[] objectsToDisable;
 
     public GameObject level_complete_canva;
+    public GameObject level_lost_canva;
     public GameObject targetObject;  // drag in Inspector
 
 
@@ -31,6 +32,14 @@ public class inlevelmenu : MonoBehaviour
                 obj.SetActive(false);
             }
             level_complete_canva.SetActive(true);
+        }
+        if(p_2.lose)
+        {
+            foreach (GameObject obj in objectsToDisable)
+            {
+                obj.SetActive(false);
+            }
+            level_lost_canva.SetActive(true);
         }
     }
 
