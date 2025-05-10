@@ -12,7 +12,7 @@ public class player2 : MonoBehaviour
     Rigidbody2D rb;
     float currentmove;
     public Queue<float> something = new Queue<float>();
-    bool win = false;
+    public bool win = false;
     public Transform epw2;
     public TextMeshProUGUI dist;
     float a, b;
